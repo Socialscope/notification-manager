@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GlanceNotification</string>
+    <string name="do_no_disturb">Do not Disturb</string>
+    <string name="service_name">NotificationListener</string>
+
+</resources>
