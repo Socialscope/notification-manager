@@ -1,8 +1,10 @@
 package android.mobisys.com.glancenotification;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.mobisys.com.glancenotification.util.AppUtil;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -27,9 +29,26 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 AppUtil.saveDNDSetting(MainActivity.this, b);
-                if (!b) sendDNDInactiveBroadcast();
+                if (!b){
+                    sendDNDInactiveBroadcast();
+                    turnSilentOff();
+                } else {
+                    turnSilentOn();
+                }
             }
         });
+    }
+
+    private void turnSilentOn(){
+        AudioManager am= (AudioManager) getBaseContext().getSystemService(Context.AUDIO_SERVICE);
+        AppUtil.saveRingerMode(this, am.getRingerMode());
+        am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+    }
+
+    private void turnSilentOff() {
+        int ringer_mode = AppUtil.getRingerMode(this);
+        AudioManager am= (AudioManager) getBaseContext().getSystemService(Context.AUDIO_SERVICE);
+        am.setRingerMode(ringer_mode);
     }
 
     private void sendDNDInactiveBroadcast(){
